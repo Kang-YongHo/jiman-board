@@ -26,9 +26,9 @@ public class Member extends Timestamped {
   private Long id;
 
   @Column(nullable = false)
-  private String name;
+  private String nickname;
 
-  @Column(nullable = false)
+  @Column(nullable = false,unique = true)
   private String email;
 
   @Column(nullable = false)
@@ -36,10 +36,11 @@ public class Member extends Timestamped {
   private String password;
 
   @Column
-  private Long rank;
+  private Long ranking;
 
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING) //DB갈 때 올 때 값을 String으로 변환해줘야함
   private RoleEnum role;
+
 
 }

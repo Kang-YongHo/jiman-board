@@ -16,7 +16,5 @@ public class SignpResponseDto {
 
     private String password;
 
-    private String phoneNum;
-
     private boolean admin;
 }
