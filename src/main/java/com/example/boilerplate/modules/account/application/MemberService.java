@@ -2,9 +2,7 @@ package com.example.boilerplate.modules.account.application;
 
 import com.example.boilerplate.exceptionHandler.CustomException;
 import com.example.boilerplate.exceptionHandler.ErrorCode;
-import com.example.boilerplate.modules.account.application.request.SignupImgRequestDto;
 import com.example.boilerplate.modules.account.application.request.SignupRequestDto;
-import com.example.boilerplate.modules.account.application.response.SocialLoginResponseDto;
 import com.example.boilerplate.modules.account.domain.Member;
 import com.example.boilerplate.modules.account.domain.RoleEnum;
 import com.example.boilerplate.modules.account.infra.MemberRepository;

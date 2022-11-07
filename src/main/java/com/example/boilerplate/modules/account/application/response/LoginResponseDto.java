@@ -11,20 +11,17 @@ public class LoginResponseDto {
 
     private Long userId;
 
-    private String nickname;
+    private String name;
 
     private boolean login;
 
     private String accessToken;
 
-    private String profileImage;
-
     //일반 로그인할 때 프론트에 내려주는 값
-    public LoginResponseDto(Long userId, String nickname, boolean login, String accessToken, String profileImage) {
+    public LoginResponseDto(Long userId, String name, boolean login, String accessToken) {
         this.userId = userId;
-        this.nickname = nickname;
+        this.name = name;
         this.login = login;  //login true/ false 상황
         this.accessToken = accessToken;
-        this.profileImage = profileImage;
     }
 }

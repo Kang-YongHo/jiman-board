@@ -2,7 +2,6 @@ package com.example.boilerplate.modules.account.web;
 
 import com.example.boilerplate.modules.account.application.AwsS3Service;
 import com.example.boilerplate.modules.account.application.MemberService;
-import com.example.boilerplate.modules.account.application.request.SignupImgRequestDto;
 import com.example.boilerplate.modules.account.application.request.SignupRequestDto;
 import com.example.boilerplate.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;

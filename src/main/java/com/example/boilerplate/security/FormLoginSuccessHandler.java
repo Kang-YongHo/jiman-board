@@ -30,8 +30,7 @@ public class FormLoginSuccessHandler extends SavedRequestAwareAuthenticationSucc
         //Member 정보 프론트 전달
         response.setContentType("application/json; charset=utf-8");
         Member member = userDetails.getMember();
-        LoginResponseDto loginResponseDto = new LoginResponseDto(member.getId(), member.getNickname(), true, token,
-                                                                    member.getProfileImg());
+        LoginResponseDto loginResponseDto = new LoginResponseDto(member.getId(), member.getName(), true, token);
 
         String result = mapper.writeValueAsString(loginResponseDto);
         response.getWriter().write(result);

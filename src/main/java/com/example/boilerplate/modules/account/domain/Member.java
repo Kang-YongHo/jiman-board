@@ -1,7 +1,6 @@
 package com.example.boilerplate.modules.account.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.Hibernate;
 
 
 @NoArgsConstructor
@@ -28,7 +26,7 @@ public class Member extends Timestamped {
   private Long id;
 
   @Column(nullable = false)
-  private String nickname;
+  private String name;
 
   @Column(nullable = false)
   private String email;
@@ -38,36 +36,10 @@ public class Member extends Timestamped {
   private String password;
 
   @Column
-  private String profileImg;
-
-  @Column(nullable = false)
-  private String phoneNum;
-
-  @Column(unique = true)
-  private String socialId;
+  private Long rank;
 
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING) //DB갈 때 올 때 값을 String으로 변환해줘야함
   private RoleEnum role;
-
-
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
-      return false;
-    }
-    Member member = (Member) o;
-    return id != null && Objects.equals(id, member.id);
-  }
-
-  @Override
-  public int hashCode() {
-    return getClass().hashCode();
-  }
 
 }

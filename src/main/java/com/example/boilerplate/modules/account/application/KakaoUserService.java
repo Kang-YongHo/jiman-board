@@ -3,7 +3,6 @@ package com.example.boilerplate.modules.account.application;
  * 프론트와 카카오 로그인 연결 된 후에 sout 출력문 다 삭제
  */
 
-import com.example.boilerplate.modules.account.application.response.SocialUserInfoDto;
 import com.example.boilerplate.modules.account.domain.Member;
 import com.example.boilerplate.modules.account.domain.RoleEnum;
 import com.example.boilerplate.modules.account.infra.MemberRepository;
