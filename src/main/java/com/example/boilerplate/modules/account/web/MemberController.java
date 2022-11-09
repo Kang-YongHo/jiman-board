@@ -27,7 +27,7 @@ public class MemberController {
   }
 
   //username 중복체크
-  @PostMapping("/api/member/signup/checkID")
+  @PostMapping("/api/member/signup/check-id")
   public ResponseDto<String> checkUsername(@RequestBody SignupRequestDto requestDto) {
     return memberService.checkUsername(requestDto);
   }
