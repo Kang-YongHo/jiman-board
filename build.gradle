@@ -28,6 +28,10 @@ dependencies {
     implementation 'com.auth0:auth0:1.42.0'
     implementation 'com.auth0:java-jwt:4.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.4'
+    implementation group: 'com.h2database', name: 'h2', version: '1.0.60'
+
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.12'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
