@@ -3,7 +3,6 @@ package com.example.boilerplate.security;
 import com.example.boilerplate.security.filter.FormLoginFilter;
 import com.example.boilerplate.security.filter.JwtAuthFilter;
 import com.example.boilerplate.security.jwt.HeaderTokenExtractor;
-import com.example.boilerplate.security.provider.CustomUserDetailService;
 import com.example.boilerplate.security.provider.FormLoginAuthProvider;
 import com.example.boilerplate.security.provider.JWTAuthProvider;
 import java.util.ArrayList;
@@ -31,16 +30,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JWTAuthProvider jwtAuthProvider;
     private final HeaderTokenExtractor headerTokenExtractor;
-    private final CustomUserDetailService customUserDetailService;
 
     public WebSecurityConfig(
         JWTAuthProvider jwtAuthProvider,
-        HeaderTokenExtractor headerTokenExtractor,
-        CustomUserDetailService customUserDetailService
+        HeaderTokenExtractor headerTokenExtractor
+
     ) {
         this.jwtAuthProvider = jwtAuthProvider;
         this.headerTokenExtractor = headerTokenExtractor;
-        this.customUserDetailService = customUserDetailService;
+
     }
 
     @PostConstruct
@@ -112,12 +110,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .permitAll();
 
         // google 로그인 화면 처리
-        http.oauth2Login()
-            .userInfoEndpoint()
-            .userService(customUserDetailService)   // 유저 정보를 받아온다.
-            .and()
-            .defaultSuccessUrl("/oauth/google")       // 받아온 유저정보로 jwt생성
-            .failureUrl("/fail");
+//            http.oauth2Login()
+//                .userInfoEndpoint()
+//                .userService(customUserDetailService)   // 유저 정보를 받아온다.
+//                .and()
+//                .defaultSuccessUrl("/oauth/google")       // 받아온 유저정보로 jwt생성
+//                .failureUrl("/fail");
     }
 
     @Bean

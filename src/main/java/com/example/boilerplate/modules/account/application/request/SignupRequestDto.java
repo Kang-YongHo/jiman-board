@@ -17,4 +17,6 @@ public class SignupRequestDto {
 
     private String password;
 
+    private String admintoken;
+
 }

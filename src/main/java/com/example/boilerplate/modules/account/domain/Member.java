@@ -38,9 +38,16 @@ public class Member extends Timestamped {
   @Column
   private Long ranking;
 
+  @Column
+  private Boolean activated;
+
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING) //DB갈 때 올 때 값을 String으로 변환해줘야함
   private RoleEnum role;
+
+  public void updateActivated(Boolean activated){
+    this.activated = activated;
+  }
 
 
 }

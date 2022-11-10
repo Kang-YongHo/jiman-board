@@ -7,8 +7,10 @@ import com.example.boilerplate.modules.account.application.response.ResponseDto;
 import com.example.boilerplate.modules.account.domain.Member;
 import com.example.boilerplate.modules.account.domain.RoleEnum;
 import com.example.boilerplate.modules.account.infra.MemberRepository;
+import java.util.List;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +21,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-//    @Value("${spring.admin.token}") // 어드민 가입용
-//    String ADMIN_TOKEN;
+    @Value("${spring.admin.token}") // 어드민 가입용
+    String ADMIN_TOKEN;
     String passwordPattern = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}"; //영어, 숫자 8자이상 20이하
     String emailPattern = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$"; //이메일 정규식 패턴
     String nicknamePattern = "^[a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣~!@#$%^&*]{2,8}"; //닉네임 정규식 패턴
@@ -31,13 +33,18 @@ public class MemberService {
 		checkNickVal(requestDto.getNickname());
 		checkPassVal(requestDto.getPassword());
 
+        RoleEnum role = RoleEnum.USER;
+        if(ADMIN_TOKEN.equals(requestDto.getAdmintoken())){
+            role = RoleEnum.ADMIN;
+        }
 
         String password = passwordEncoder.encode(requestDto.getPassword()); // 패스워드 암호화
         Member member = Member.builder()
                 .email(requestDto.getEmail())
                 .nickname(requestDto.getNickname())
                 .password(password)
-                .role(RoleEnum.USER)
+                .role(role)
+                .activated(false)
                 .build();
         memberRepository.save(member);
 
@@ -92,5 +99,32 @@ public class MemberService {
 			throw new CustomException(ErrorCode.PASSWORD_WRONG);
 
 	}
+
+    public ResponseDto<List> getListSignupRequest(Member member) {
+        checkAdmin(member);
+        List<Member> memberList = memberRepository.findAllByActivatedIsFalse();
+
+        return ResponseDto.success(memberList);
+    }
+
+    public ResponseDto<Boolean> activateMember(Member member, Long Id){
+        checkAdmin(member);
+        Member account = memberRepository.findById(Id).orElseThrow(
+            () -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        account.updateActivated(true);
+        memberRepository.save(account);
+
+        return ResponseDto.success(true);
+    }
+
+    public void checkAdmin(Member member){
+        if(!member.getRole().equals(RoleEnum.ADMIN)){
+            throw new CustomException(ErrorCode.INVALID_AUTHORITY);
+        }
+    }
+
+
+
 
 }
