@@ -26,9 +26,9 @@ public final class JwtTokenUtils {
         String token = null;
         try {
             token = JWT.create()
-                .withIssuer("ITmon")
+                .withIssuer("BP")
                 .withClaim(CLAIM_USER_NAME, userDetails.getUsername())
-                .withClaim(AUTHORITIES_KEY, RoleEnum.USER.toString())
+                .withClaim(AUTHORITIES_KEY, userDetails.getMember().getRole().toString())
                 // 토큰 만료 일시 = 현재 시간 + 토큰 유효기간)
                 .withClaim(CLAIM_EXPIRED_DATE,
                     new Date(System.currentTimeMillis() + JWT_TOKEN_VALID_MILLI_SEC))

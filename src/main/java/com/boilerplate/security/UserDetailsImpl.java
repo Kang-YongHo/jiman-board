@@ -52,9 +52,8 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override //인가를 해주는 부분
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		RoleEnum role = member.getRole();
-		String authority = role.toString();
 
+		String authority = getMember().getRole().toString();
 		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(simpleGrantedAuthority);

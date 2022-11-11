@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 
 @NoArgsConstructor
@@ -19,13 +20,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @Getter
-public class Member extends Timestamped {
+public class Member {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
+  @Column(nullable = false,unique = true)
   private String nickname;
 
   @Column(nullable = false,unique = true)
@@ -36,17 +37,17 @@ public class Member extends Timestamped {
   private String password;
 
   @Column
-  private Long ranking;
+  private Long point;
 
   @Column
-  private Boolean activated;
+  private Long ranking;
 
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING) //DB갈 때 올 때 값을 String으로 변환해줘야함
   private RoleEnum role;
 
-  public void updateActivated(Boolean activated){
-    this.activated = activated;
+  public void updateRole(RoleEnum role){
+    this.role = role;
   }
 
 
