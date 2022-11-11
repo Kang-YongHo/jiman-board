@@ -31,8 +31,15 @@ public class Board {
 	@Column(nullable = false)
 	private String boardDiscription;
 
+	@Column(nullable = false)
+	private Boolean activated;
+
 	@Builder.Default
 	@OneToMany(mappedBy = "board")
 	private List<Post> posts = new ArrayList<>();
+
+	public void updateActivated(Boolean activated){
+		this.activated = activated;
+	}
 
 }

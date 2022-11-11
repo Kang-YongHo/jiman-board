@@ -43,7 +43,9 @@ public enum ErrorCode {
      */
 
     API_NOT_FOUND(HttpStatus.NOT_FOUND, "잘못된 주소입니다."),
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다");
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다"),
+
+    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시판을 찾을 수 없습니다.");
 
 
 
