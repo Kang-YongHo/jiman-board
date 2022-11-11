@@ -34,8 +34,12 @@ public class MemberService {
 		checkPassVal(requestDto.getPassword());
 
         RoleEnum role = RoleEnum.USER;
+        Boolean activated = false;
+        String mention = "회원가입요청 되었습니다.";
         if(ADMIN_TOKEN.equals(requestDto.getAdmintoken())){
             role = RoleEnum.ADMIN;
+            activated = true;
+            mention = "관리자로 가입되셨습니다.";
         }
 
         String password = passwordEncoder.encode(requestDto.getPassword()); // 패스워드 암호화
@@ -44,11 +48,11 @@ public class MemberService {
                 .nickname(requestDto.getNickname())
                 .password(password)
                 .role(role)
-                .activated(false)
+                .activated(activated)
                 .build();
         memberRepository.save(member);
 
-        return ResponseDto.success("회원가입에 성공하였습니다.");
+        return ResponseDto.success(mention);
     }
 
     //username 중복체크

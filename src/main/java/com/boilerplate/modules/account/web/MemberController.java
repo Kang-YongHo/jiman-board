@@ -27,11 +27,7 @@ public class MemberController {
     public ResponseDto<String> signupUser(@RequestBody SignupRequestDto requestDto)
         throws Exception {
 
-        return memberService.signupUser(SignupRequestDto.builder()
-            .email(requestDto.getEmail())
-            .nickname(requestDto.getNickname())
-            .password(requestDto.getPassword())
-            .build());
+        return memberService.signupUser(requestDto);
     }
 
     @Operation(summary = "유저네임 중복 체크", description = "회원가입 시 유저네임이 중복되는지 확인합니다.", tags = {"MemberController"})

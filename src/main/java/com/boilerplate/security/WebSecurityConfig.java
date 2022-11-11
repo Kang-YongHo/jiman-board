@@ -1,5 +1,6 @@
 package com.boilerplate.security;
 
+import com.boilerplate.modules.account.domain.RoleEnum;
 import com.boilerplate.security.filter.FormLoginFilter;
 import com.boilerplate.security.filter.JwtAuthFilter;
 import com.boilerplate.security.jwt.HeaderTokenExtractor;
@@ -64,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web
             .ignoring()
             .antMatchers("/h2-console/**")
-            .antMatchers("/api-docs/**", "/swagger-ui/**")
+            .antMatchers("/api-docs/**", "/swagger-ui/**","/v3/api-docs/**")
         ;
     }
 
@@ -150,13 +151,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/oauth/naver/**");
 
         //회원가입하기, 로그인 관련 skipPathList
-        skipPathList.add("POST,/api/members/signup");  //회원가입
-        skipPathList.add("POST,/api/members/checkId");  //username 중복 체크
-        skipPathList.add("POST,/api/members/checkNickname");  //nickname 중복 체크
-        skipPathList.add("POST,/api/members/findUsername"); // username 찾기
-        skipPathList.add("POST,/api/members/sendAuth"); // 인증번호 발송
-        skipPathList.add("POST,/api/members/sendSmsForSignup"); // 인증번호 발송
-        skipPathList.add("POST,/api/members/confirmPhoneNumber"); // 인증번호 발송
+        skipPathList.add("POST,/api/member/signup");  //회원가입
+        skipPathList.add("POST,/api/member/checkId");  //username 중복 체크
+        skipPathList.add("POST,/api/member/checkNickname");  //nickname 중복 체크
+        skipPathList.add("POST,/api/member/findUsername"); // username 찾기
 
         //main 화면
         skipPathList.add("GET,/api/monster/month"); // main 화면
