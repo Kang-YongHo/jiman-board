@@ -1,12 +1,11 @@
 package com.boilerplate.modules.board.web;
 
 import com.boilerplate.modules.account.application.response.ResponseDto;
-import com.boilerplate.modules.board.application.request.BoardRequestDto;
-import com.boilerplate.security.UserDetailsImpl;
 import com.boilerplate.modules.board.application.BoardService;
+import com.boilerplate.modules.board.application.request.BoardRequestDto;
+import com.boilerplate.modules.board.application.response.BoardResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +29,8 @@ public class BoardController {
 	}
 
 	@GetMapping("")
-	public ResponseDto<List> getBoardList(){
+	public ResponseDto<List<BoardResponseDto>> getBoardList(){
+
 		 return boardService.getBoardList();
 	}
 

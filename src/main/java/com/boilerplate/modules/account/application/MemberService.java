@@ -112,6 +112,9 @@ public class MemberService {
 	}
 
 	public ResponseDto<List<MemberResponseDto>> getListSignupRequest() {
+		System.out.println(memberRepository.findRankingById(1L));
+		System.out.println(memberRepository.findRankingById(2L));
+		System.out.println(memberRepository.findRankingById(3L));
 		List<Member> memberList = memberRepository.findAllByRole(RoleEnum.DEACTIVATED_USER);
 		List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
 		for (Member member : memberList) {

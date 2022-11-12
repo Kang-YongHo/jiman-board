@@ -10,6 +10,8 @@ import lombok.Setter;
 @Data
 @Builder
 public class BoardResponseDto {
+	private Long id;
 	private String BoardName;
 	private String BoardDisc;
+	private Boolean activated;
 }

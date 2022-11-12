@@ -15,7 +15,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
   List<Member> findAllByRole(RoleEnum role);
 
   @Query(value = "SELECT * from(select id,dense_rank() over (order by point desc) "
-      + "from bp.member) ranking where id = ?1", nativeQuery = true)
+      + "from member) ranking where id = ?1", nativeQuery = true)
   Long findRankingById(Long id);
 }
 
+//50만명 가입 랭ㅋ팅 원투원

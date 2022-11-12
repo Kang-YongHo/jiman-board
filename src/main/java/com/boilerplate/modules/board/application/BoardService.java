@@ -7,8 +7,6 @@ import com.boilerplate.modules.board.Board;
 import com.boilerplate.modules.board.application.request.BoardRequestDto;
 import com.boilerplate.modules.board.application.response.BoardResponseDto;
 import com.boilerplate.modules.board.infra.BoardRepository;
-import com.boilerplate.modules.account.domain.Member;
-import com.boilerplate.modules.account.domain.RoleEnum;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +30,7 @@ public class BoardService {
 
 	}
 
-	public ResponseDto<String> blind(Long id){
+	public ResponseDto<String> blind(Long id) {
 		Board board = boardRepository.findById(id).orElseThrow(
 			() -> new CustomException(ErrorCode.BOARD_NOT_FOUND)
 		);
@@ -41,13 +39,15 @@ public class BoardService {
 		return ResponseDto.success("게시판 블러처리 완료");
 	}
 
-	public ResponseDto<List> getBoardList() {
+	public ResponseDto<List<BoardResponseDto>> getBoardList() {
 		List<Board> boardList = boardRepository.findAll();
 		List<BoardResponseDto> boardResponseDtos = new ArrayList<>();
-		for(Board board:boardList){
+		for (Board board : boardList) {
 			boardResponseDtos.add(BoardResponseDto.builder()
+				.id(board.getId())
 				.BoardName(board.getBoardName())
 				.BoardDisc(board.getBoardDiscription())
+				.activated(board.getActivated())
 				.build());
 		}
 		return ResponseDto.success(boardResponseDtos);
