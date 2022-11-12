@@ -41,8 +41,8 @@ public class Member {
   @Column
   private Long point;
 
-  @OneToOne
-  private Ranking Ranking;
+  @Column
+  private Long ranking;
 
   @Column(nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
@@ -52,6 +52,8 @@ public class Member {
   public void updateRole(RoleEnum role){
     this.role = role;
   }
+
+  public void updateRanking(Long ranking){ this.ranking = ranking;}
 
 
 }

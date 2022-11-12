@@ -2,7 +2,10 @@ package com.boilerplate.modules.account.web;
 
 import com.boilerplate.modules.account.application.request.SignupRequestDto;
 import com.boilerplate.modules.account.application.response.MemberResponseDto;
+import com.boilerplate.modules.account.application.response.RankingResponseDto;
 import com.boilerplate.modules.account.application.response.ResponseDto;
+import com.boilerplate.modules.account.domain.Member;
+import com.boilerplate.modules.account.domain.Ranking;
 import com.boilerplate.security.UserDetailsImpl;
 import com.boilerplate.modules.account.application.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,6 +64,11 @@ public class MemberController {
     @GetMapping("/api/admin/testSignup")
     public ResponseDto<Boolean> testSignup(){
         return memberService.testSignup();
+    }
+
+    @GetMapping("/api/test/{id}")
+    public RankingResponseDto testRanking(@PathVariable Long id){
+        return memberService.testRanking(id);
     }
 
 

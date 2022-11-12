@@ -4,10 +4,12 @@ import com.boilerplate.exceptionHandler.CustomException;
 import com.boilerplate.exceptionHandler.ErrorCode;
 import com.boilerplate.modules.account.application.request.SignupRequestDto;
 import com.boilerplate.modules.account.application.response.MemberResponseDto;
+import com.boilerplate.modules.account.application.response.RankingResponseDto;
 import com.boilerplate.modules.account.application.response.ResponseDto;
 import com.boilerplate.modules.account.domain.Member;
 import com.boilerplate.modules.account.domain.RoleEnum;
 import com.boilerplate.modules.account.infra.MemberRepository;
+import com.boilerplate.modules.account.infra.RankingInterface;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -123,7 +125,7 @@ public class MemberService {
 				.email(member.getEmail())
 				.nickname(member.getNickname())
 				.role(member.getRole().toString())
-				.ranking(memberRepository.findRankingById(member.getId()))
+
 				.build());
 		}
 		return ResponseDto.success(memberResponseDtos);
@@ -177,5 +179,13 @@ public class MemberService {
 			memberRepository.save(member);
 		}
 		return ResponseDto.success(true);
+	}
+
+	public RankingResponseDto testRanking(Long id){
+		RankingInterface ranking = memberRepository.findRankingById(id);
+		return RankingResponseDto.builder()
+			.id(ranking.getId())
+			.ranking(ranking.getRanking())
+			.build();
 	}
 }
