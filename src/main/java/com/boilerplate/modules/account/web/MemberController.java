@@ -57,6 +57,13 @@ public class MemberController {
     }
 
 
+    @Operation(summary = "회원 50만명 가입시키기", description = "관리자 계정으로 가입", tags = {"MemberController"})
+    @GetMapping("/api/admin/testSignup")
+    public ResponseDto<Boolean> testSignup(){
+        return memberService.testSignup();
+    }
+
+
 
 
 

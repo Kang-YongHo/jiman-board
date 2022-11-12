@@ -151,4 +151,31 @@ public class MemberService {
 		memberRepository.save(member);
 		return ResponseDto.success(true);
 	}
+
+	public ResponseDto<Boolean> testSignup() {
+
+		for(int i = 0; i < 500000; i++){
+			//난수생성
+			long random = (long)(Math.random() * (999999 - 100000 + 1)) + 100000;
+
+			String email = "a";
+			String num = String.valueOf(i);
+			if(num.length() < 6){
+				for(int j = 0; j < 6-num.length(); j++){
+					email += "0";
+				}
+			}
+			email+=num;
+			String password = passwordEncoder.encode(email);
+			Member member = Member.builder()
+				.email(email+="@nate.com")
+				.nickname(email)
+				.password(password)
+				.role(RoleEnum.ACTIVATED_USER)
+				.point(random)
+				.build();
+			memberRepository.save(member);
+		}
+		return ResponseDto.success(true);
+	}
 }

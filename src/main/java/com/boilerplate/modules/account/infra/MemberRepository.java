@@ -19,4 +19,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
   Long findRankingById(Long id);
 }
 
-//50만명 가입 랭ㅋ팅 원투원
+//50만명 가입 / 랭ㅋ팅 원투중
