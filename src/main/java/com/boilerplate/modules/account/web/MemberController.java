@@ -22,6 +22,12 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @Operation(summary = "회원 전체 조회", description = "전체 회원을 조회한다.", tags = {"MemberController"})
+    @GetMapping("/api/member/find-all")
+    public ResponseDto<List<MemberResponseDto>> findAll(){
+        return memberService.findAll();
+    }
+
     @Operation(summary = "회원가입요청", description = "회원가입 요청을 합니다.", tags = {"MemberController"})
     @PostMapping("/api/member/signup")
     public ResponseDto<String> signupUser(@RequestBody SignupRequestDto requestDto)
@@ -57,7 +63,7 @@ public class MemberController {
 
 
     @Operation(summary = "회원 50만명 가입시키기", description = "관리자 계정으로 가입", tags = {"MemberController"})
-    @GetMapping("/api/admin/testSignup")
+    @GetMapping("/api/admin/test-signup")
     public ResponseDto<Boolean> testSignup(){
         return memberService.testSignup();
     }

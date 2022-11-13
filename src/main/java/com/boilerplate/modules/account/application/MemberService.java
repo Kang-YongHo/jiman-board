@@ -13,7 +13,9 @@ import com.boilerplate.modules.account.infra.RankingInterface;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ public class MemberService {
 
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
+
+	private final ModelMapper modelMapper;
 
 	@Value("${spring.admin.token}") // 어드민 가입용
 	String ADMIN_TOKEN;
@@ -190,5 +194,12 @@ public class MemberService {
 			.id(ranking.getId())
 			.ranking(ranking.getRanking())
 			.build();
+	}
+
+	public ResponseDto<List<MemberResponseDto>> findAll() {
+		return ResponseDto.success(memberRepository.findAll()
+			.stream()
+			.map(member -> modelMapper.map(member, MemberResponseDto.class))
+			.collect(Collectors.toList()));
 	}
 }
