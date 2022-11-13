@@ -182,7 +182,13 @@ public class MemberService {
 	}
 
 	public RankingResponseDto testRanking(Long id){
+		Member member = memberRepository.findById(id).orElseThrow(
+			()-> new CustomException(ErrorCode.USER_NOT_FOUND)
+		);
 		RankingInterface ranking = memberRepository.findRankingById(id);
+
+		member.updateRanking(ranking.getRanking());
+		memberRepository.save(member);
 		return RankingResponseDto.builder()
 			.id(ranking.getId())
 			.ranking(ranking.getRanking())
