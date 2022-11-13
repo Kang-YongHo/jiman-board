@@ -74,7 +74,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf()
 			.disable()
 			.authorizeRequests()
-
 			.antMatchers(HttpMethod.OPTIONS).permitAll() // preflight 대응
 			.antMatchers("/api/admin/**").hasAuthority("ADMIN"); // /auth/**에 대한 접근을 인증 절차 없이 허용(로그인 관련 url)
 		// 특정 권한을 가진 사용자만 접근을 허용해야 할 경우, 하기 항목을 통해 가능
@@ -151,9 +150,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		//회원가입하기, 로그인 관련 skipPathList
 		skipPathList.add("POST,/api/member/signup");  //회원가입
-		skipPathList.add("POST,/api/member/checkId");  //username 중복 체크
+		skipPathList.add("POST,/api/member/check-id");  //username 중복 체크
 		skipPathList.add("POST,/api/member/checkNickname");  //nickname 중복 체크
 		skipPathList.add("POST,/api/member/findUsername"); // username 찾기
+		skipPathList.add("GET,/api/member/find-all"); // username 찾기
 
 
 		//무중단 배포 확인용
