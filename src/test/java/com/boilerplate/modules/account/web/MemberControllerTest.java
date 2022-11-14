@@ -2,6 +2,8 @@ package com.boilerplate.modules.account.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.boilerplate.common.MockMvcTest;
 import com.boilerplate.modules.account.application.MemberService;
@@ -43,6 +45,7 @@ class MemberControllerTest {
         //when
         MvcResult mvcResult = mockMvc.perform(get("/api/member/find-all"))
             .andDo(print())
+            .andExpect(status().isOk())
             .andReturn();
 
         //then
