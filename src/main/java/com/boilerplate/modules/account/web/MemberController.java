@@ -5,6 +5,7 @@ import com.boilerplate.modules.account.application.response.MemberResponseDto;
 import com.boilerplate.modules.account.application.response.RankingResponseDto;
 import com.boilerplate.modules.account.application.response.ResponseDto;
 import com.boilerplate.modules.account.application.MemberService;
+import com.boilerplate.modules.account.infra.RankingInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -63,14 +64,14 @@ public class MemberController {
 
 
     @Operation(summary = "회원 50만명 가입시키기", description = "관리자 계정으로 가입", tags = {"MemberController"})
-    @GetMapping("/api/admin/test-signup")
+    @GetMapping("/api/test/test-signup")
     public ResponseDto<Boolean> testSignup(){
         return memberService.testSignup();
     }
 
-    @GetMapping("/api/test/{id}")
-    public RankingResponseDto testRanking(@PathVariable Long id){
-        return memberService.testRanking(id);
+    @GetMapping("/api/test/ranking")
+    public ResponseDto<Boolean> testRanking(){
+        return memberService.testRanking();
     }
 
 

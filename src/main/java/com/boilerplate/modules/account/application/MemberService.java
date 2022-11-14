@@ -7,13 +7,14 @@ import com.boilerplate.modules.account.application.response.MemberResponseDto;
 import com.boilerplate.modules.account.application.response.RankingResponseDto;
 import com.boilerplate.modules.account.application.response.ResponseDto;
 import com.boilerplate.modules.account.domain.Member;
+import com.boilerplate.modules.account.domain.Ranking;
 import com.boilerplate.modules.account.domain.RoleEnum;
 import com.boilerplate.modules.account.infra.MemberJdbcRepository;
 import com.boilerplate.modules.account.infra.MemberRepository;
 import com.boilerplate.modules.account.infra.RankingInterface;
+import com.boilerplate.modules.account.infra.RankingRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,10 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
 	private final MemberRepository memberRepository;
+	private final RankingRepository rankingRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final MemberJdbcRepository repository;
+
 
 	private final ModelMapper modelMapper;
 
@@ -169,6 +172,7 @@ public class MemberService {
 
 		for (int i = 0; i < 500000; i++) {
 			long random = (long) (Math.random() * (999999 - 100000 + 1)) + 100000;
+
 			String email = "a";
 			String num = String.valueOf(i);
 			email += "0".repeat(6 - num.length()) + num;
@@ -182,7 +186,7 @@ public class MemberService {
 			memberList.add(member);
 		}
 		memberRepository.saveAll(memberList);
-//		repository.saveAll(memberList);	jdbc bulk insert
+//		repository.saveAll(memberList);	//jdbc bulk insert
 		long afterTime= System.currentTimeMillis();
 		long secDiffTime = (afterTime-beforeTime)/1000;
 		System.out.println("시간차이(m) : "+secDiffTime);
@@ -190,18 +194,24 @@ public class MemberService {
 		return ResponseDto.success(true);
 	}
 
-	public RankingResponseDto testRanking(Long id) {
-		Member member = memberRepository.findById(id).orElseThrow(
-			() -> new CustomException(ErrorCode.USER_NOT_FOUND)
-		);
-		RankingInterface ranking = memberRepository.findRankingById(id);
+	public ResponseDto<Boolean> testRanking() {
+		long beforeTime =System.currentTimeMillis();
+		List<RankingInterface> rankings = memberRepository.findAllRanking();
+		List<Ranking> rankingList = new ArrayList<>();
 
-		member.updateRanking(ranking.getRanking());
-		memberRepository.save(member);
-		return RankingResponseDto.builder()
-			.id(ranking.getId())
-			.ranking(ranking.getRanking())
-			.build();
+		for (RankingInterface ranking : rankings){
+
+			Ranking entity = Ranking.builder()
+				.member(memberRepository.findById(ranking.getId()).get())
+				.ranking(ranking.getRanking())
+				.build();
+			rankingList.add(entity);
+		}
+		rankingRepository.saveAll(rankingList);
+		long afterTime= System.currentTimeMillis();
+		long secDiffTime = (afterTime-beforeTime)/1000;
+		System.out.println("시간차이(m) : "+secDiffTime);
+		return ResponseDto.success(true);
 	}
 
 	public ResponseDto<List<MemberResponseDto>> findAll() {

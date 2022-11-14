@@ -41,19 +41,17 @@ public class Member {
   @Column
   private Long point;
 
-  @Column
-  private Long ranking;
-
   @Column(nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
   @Enumerated(value = EnumType.STRING) //DB갈 때 올 때 값을 String으로 변환해줘야함
   private RoleEnum role;
 
+  @OneToOne
+  private Ranking ranking;
+
   public void updateRole(RoleEnum role){
     this.role = role;
   }
-
-  public void updateRanking(Long ranking){ this.ranking = ranking;}
 
 
 }

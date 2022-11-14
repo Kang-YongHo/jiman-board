@@ -26,6 +26,13 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 		+ "where id = ?1"
 		, nativeQuery = true)
 	RankingInterface findRankingById(Long id);
+
+	@Query(value = "select * from (select id, dense_rank()over(order by point desc) as ranking from bp.member) ranking;"
+		, nativeQuery = true)
+	List<RankingInterface> findAllRanking();
+
+
+
 }
 
 //50만명 가입 / 랭ㅋ팅 원투중
