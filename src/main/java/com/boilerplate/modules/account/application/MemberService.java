@@ -8,15 +8,18 @@ import com.boilerplate.modules.account.application.response.RankingResponseDto;
 import com.boilerplate.modules.account.application.response.ResponseDto;
 import com.boilerplate.modules.account.domain.Member;
 import com.boilerplate.modules.account.domain.RoleEnum;
+import com.boilerplate.modules.account.infra.MemberJdbcRepository;
 import com.boilerplate.modules.account.infra.MemberRepository;
 import com.boilerplate.modules.account.infra.RankingInterface;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,7 @@ public class MemberService {
 
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final MemberJdbcRepository repository;
 
 	private final ModelMapper modelMapper;
 
@@ -159,16 +163,15 @@ public class MemberService {
 	}
 
 	public ResponseDto<Boolean> testSignup() {
+		long beforeTime =System.currentTimeMillis();
+		String password = passwordEncoder.encode("qwer1234");
 		List<Member> memberList = new ArrayList<>();
 
-		for (int i = 0; i < 50; i++) {
-			//난수생성
+		for (int i = 0; i < 500000; i++) {
 			long random = (long) (Math.random() * (999999 - 100000 + 1)) + 100000;
-
 			String email = "a";
 			String num = String.valueOf(i);
 			email += "0".repeat(6 - num.length()) + num;
-			String password = passwordEncoder.encode(email);
 			Member member = Member.builder()
 				.email(email + "@nate.com")
 				.nickname(email)
@@ -179,6 +182,11 @@ public class MemberService {
 			memberList.add(member);
 		}
 		memberRepository.saveAll(memberList);
+//		repository.saveAll(memberList);	jdbc bulk insert
+		long afterTime= System.currentTimeMillis();
+		long secDiffTime = (afterTime-beforeTime)/1000;
+		System.out.println("시간차이(m) : "+secDiffTime);
+
 		return ResponseDto.success(true);
 	}
 
@@ -197,7 +205,7 @@ public class MemberService {
 	}
 
 	public ResponseDto<List<MemberResponseDto>> findAll() {
-		return ResponseDto.success(memberRepository.findAll()
+		return ResponseDto.success(memberRepository.findAll(PageRequest.of(0, 10000))
 			.stream()
 			.map(member -> modelMapper.map(member, MemberResponseDto.class))
 			.collect(Collectors.toList()));
