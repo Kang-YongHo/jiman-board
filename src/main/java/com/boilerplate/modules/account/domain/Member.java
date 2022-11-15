@@ -46,8 +46,8 @@ public class Member {
   @Enumerated(value = EnumType.STRING) //DB갈 때 올 때 값을 String으로 변환해줘야함
   private RoleEnum role;
 
-  @OneToOne
-  private Ranking ranking;
+//  @OneToOne
+  private Long ranking;
 
   public void updateRole(RoleEnum role){
     this.role = role;

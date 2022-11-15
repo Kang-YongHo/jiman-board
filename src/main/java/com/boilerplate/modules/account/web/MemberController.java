@@ -74,6 +74,11 @@ public class MemberController {
         return memberService.testRanking();
     }
 
+    @GetMapping("/api/test/ranking/{id}")
+    public ResponseDto<RankingResponseDto> testRankingById(@PathVariable Long id){
+        return memberService.testRankingById(id);
+    }
+
 
 
 

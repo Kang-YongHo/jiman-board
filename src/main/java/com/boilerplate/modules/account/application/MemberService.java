@@ -7,12 +7,9 @@ import com.boilerplate.modules.account.application.response.MemberResponseDto;
 import com.boilerplate.modules.account.application.response.RankingResponseDto;
 import com.boilerplate.modules.account.application.response.ResponseDto;
 import com.boilerplate.modules.account.domain.Member;
-import com.boilerplate.modules.account.domain.Ranking;
 import com.boilerplate.modules.account.domain.RoleEnum;
 import com.boilerplate.modules.account.infra.MemberJdbcRepository;
 import com.boilerplate.modules.account.infra.MemberRepository;
-import com.boilerplate.modules.account.infra.RankingInterface;
-import com.boilerplate.modules.account.infra.RankingRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -29,7 +26,6 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
 	private final MemberRepository memberRepository;
-	private final RankingRepository rankingRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final MemberJdbcRepository repository;
 
@@ -125,9 +121,6 @@ public class MemberService {
 	}
 
 	public ResponseDto<List<MemberResponseDto>> getListSignupRequest() {
-		System.out.println(memberRepository.findRankingById(1L));
-		System.out.println(memberRepository.findRankingById(2L));
-		System.out.println(memberRepository.findRankingById(3L));
 		List<Member> memberList = memberRepository.findAllByRole(RoleEnum.DEACTIVATED_USER);
 		List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
 		for (Member member : memberList) {
@@ -196,24 +189,24 @@ public class MemberService {
 
 	public ResponseDto<Boolean> testRanking() {
 		long beforeTime =System.currentTimeMillis();
-		List<RankingInterface> rankings = memberRepository.findAllRanking();
-		List<Ranking> rankingList = new ArrayList<>();
-
-		for (RankingInterface ranking : rankings){
-
-			Ranking entity = Ranking.builder()
-				.member(memberRepository.findById(ranking.getId()).get())
-				.ranking(ranking.getRanking())
-				.build();
-			rankingList.add(entity);
-		}
-		rankingRepository.saveAll(rankingList);
+		memberRepository.saveAllRanking();
 		long afterTime= System.currentTimeMillis();
 		long secDiffTime = (afterTime-beforeTime)/1000;
 		System.out.println("시간차이(m) : "+secDiffTime);
 		return ResponseDto.success(true);
 	}
 
+	public ResponseDto<RankingResponseDto> testRankingById(Long id){
+		Member member = memberRepository.findById(id).orElseThrow(
+			() -> new CustomException(ErrorCode.USER_NOT_FOUND)
+		);
+		RankingResponseDto responseDto = RankingResponseDto.builder()
+			.id(id)
+			.ranking(member.getRanking())
+			.build();
+
+		return ResponseDto.success(responseDto);
+	}
 	public ResponseDto<List<MemberResponseDto>> findAll() {
 		return ResponseDto.success(memberRepository.findAll(PageRequest.of(0, 10000))
 			.stream()
