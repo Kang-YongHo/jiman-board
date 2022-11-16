@@ -48,7 +48,7 @@ public class Post extends Timestamped {
 	@OneToMany(mappedBy = "post")
 	private List<Comment> comments;
 
-	private Boolean ativated;
+	private Boolean activated;
 
 
 }

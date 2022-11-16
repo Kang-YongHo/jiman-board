@@ -13,6 +13,8 @@ import lombok.Setter;
 public class PostRequestDto {
 	public Long id;
 
+	public String title;
+
 	public Member writer;
 
 	public String content;
