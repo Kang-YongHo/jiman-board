@@ -1,6 +1,6 @@
 package com.boilerplate.modules.board.infra;
 
-import com.boilerplate.modules.board.Board;
+import com.boilerplate.modules.board.domain.Board;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

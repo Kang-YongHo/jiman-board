@@ -1,6 +1,6 @@
-package com.boilerplate.modules.board;
+package com.boilerplate.modules.board.domain;
 
-import com.boilerplate.modules.post.Post;
+import com.boilerplate.modules.post.domain.Post;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;

@@ -3,7 +3,7 @@ package com.boilerplate.modules.board.application;
 import com.boilerplate.exceptionHandler.CustomException;
 import com.boilerplate.exceptionHandler.ErrorCode;
 import com.boilerplate.modules.account.application.response.ResponseDto;
-import com.boilerplate.modules.board.Board;
+import com.boilerplate.modules.board.domain.Board;
 import com.boilerplate.modules.board.application.request.BoardRequestDto;
 import com.boilerplate.modules.board.application.response.BoardResponseDto;
 import com.boilerplate.modules.board.infra.BoardRepository;

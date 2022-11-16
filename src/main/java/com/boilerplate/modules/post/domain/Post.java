@@ -1,18 +1,23 @@
-package com.boilerplate.modules.post;
+package com.boilerplate.modules.post.domain;
 
+import com.boilerplate.modules.account.domain.Member;
 import com.boilerplate.modules.account.domain.Timestamped;
-import com.boilerplate.modules.board.Board;
+import com.boilerplate.modules.board.domain.Board;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
 
 @Entity
 @Builder
@@ -26,7 +31,6 @@ public class Post extends Timestamped {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 
-
 	// 제목
 	@Column(nullable = false)
 	private String title;
@@ -34,10 +38,17 @@ public class Post extends Timestamped {
 	@Column(nullable = false)
 	private String content;
 
-	@Column(nullable = false)
-	private String author;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Member writer;
 
 	@ManyToOne
 	@JoinColumn(name = "board")
 	private Board board;
+
+	@OneToMany(mappedBy = "post")
+	private List<Comment> comments;
+
+	private Boolean ativated;
+
+
 }
